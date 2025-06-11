@@ -1,4 +1,4 @@
-#include <bfd.h>
+#include "bfd-mod.h"
 
 #define declare_getter(typename, pfx, name) \
     bfd_##pfx##_##name(typename self)

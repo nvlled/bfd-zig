@@ -1,5 +1,5 @@
 
-#include <bfd.h>
+#include "bfd-mod.h"
 
 #define extrn extern inline
 
@@ -14,7 +14,6 @@
     {                                                 \
         return self->expr;                            \
     }
-
 
 extrn const char *define_getter(struct bfd *, h, filename);
 

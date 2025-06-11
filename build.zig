@@ -17,6 +17,10 @@ pub fn build(b: *std.Build) void {
         .file = b.path("src/bfd-wrapper.c"),
         .language = .c,
     });
+    mod.addCSourceFile(.{
+        .file = b.path("src/bfd-mod.c"),
+        .language = .c,
+    });
 
     const exe = b.addExecutable(.{
         .name = "bfd_zig",
@@ -31,6 +35,7 @@ pub fn build(b: *std.Build) void {
         }),
     });
     exe.linkLibC();
+    mod.addIncludePath(b.path("src"));
     b.installArtifact(exe);
 
     // export module so it can be imported on other projects
