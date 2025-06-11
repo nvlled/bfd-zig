@@ -9,6 +9,13 @@
         return self->name;                 \
     }
 
+#define define_getter_expr(typename, pfx, name, expr) \
+    bfd_##pfx##_##name(typename self)                 \
+    {                                                 \
+        return self->expr;                            \
+    }
+
+
 extrn const char *define_getter(struct bfd *, h, filename);
 
 extrn const struct bfd_target *define_getter(struct bfd *, h, xvec);
@@ -110,9 +117,10 @@ extrn struct bfd *define_getter(struct bfd *, h, archive_next);
 extrn struct bfd *define_getter(struct bfd *, h, archive_head);
 extrn struct bfd *define_getter(struct bfd *, h, nested_archives);
 
-extrn struct bfd *bfd_h_link_next(struct bfd *handle) { return handle->link.next; };
+extrn struct bfd *define_getter_expr(struct bfd *, h, link_next, link.next);
 
-extrn struct bfd_link_hash_table *bfd_h_link_hash(struct bfd *handle) { return handle->link.hash; };
+extrn struct bfd_link_hash_table *
+define_getter_expr(struct bfd *, h, link_hash, link.hash);
 
 extrn void *define_getter(struct bfd *, h, usrdata);
 
@@ -216,27 +224,67 @@ extrn struct bfd_symbol *define_getter(struct bfd_section *, sec, symbol);
 
 extrn struct bfd_symbol **define_getter(struct bfd_section *, sec, symbol_ptr_ptr);
 
-// TODO:
-//   union {
-//     struct bfd_link_order *link_order;
-//     struct bfd_section *s;
-//     const char *linked_to_symbol_name;
-//   } map_head, map_tail;
+extrn struct bfd_link_order *
+define_getter_expr(struct bfd_section *, sec, map_head_link_order, map_head.link_order);
 
-struct bfd_section *define_getter(struct bfd_section *, sec, already_assigned);
+extrn struct bfd_section *
+define_getter_expr(struct bfd_section *, sec, map_head_s, map_head.s);
 
-unsigned int define_getter(struct bfd_section *, sec, type);
+extrn const char *
+define_getter_expr(struct bfd_section *, sec, map_head_linked_to_symbol_name, map_head.linked_to_symbol_name);
+
+extrn struct bfd_link_order *
+define_getter_expr(struct bfd_section *, sec, map_tail_link_order, map_tail.link_order);
+
+extrn struct bfd_section *
+define_getter_expr(struct bfd_section *, sec, map_tail_s, map_tail.s);
+
+extrn const char *
+define_getter_expr(struct bfd_section *, sec, map_tail_linked_to_symbol_name, map_tail.linked_to_symbol_name);
+
+extrn struct bfd_section *define_getter(struct bfd_section *, sec, already_assigned);
+
+extrn unsigned int define_getter(struct bfd_section *, sec, type);
 
 // -------------------------------------------------------------------
 
-extrn struct bfd_hash_entry **define_getter(struct bfd_hash_table*, ht, table);
+extrn struct bfd_hash_entry **define_getter(struct bfd_hash_table *, ht, table);
 
-extrn void *define_getter(struct bfd_hash_table*, ht, memory);
+extrn void *define_getter(struct bfd_hash_table *, ht, memory);
 
-extrn unsigned int define_getter(struct bfd_hash_table*, ht, size);
+extrn unsigned int define_getter(struct bfd_hash_table *, ht, size);
 
-extrn unsigned int define_getter(struct bfd_hash_table*, ht, count);
+extrn unsigned int define_getter(struct bfd_hash_table *, ht, count);
 
-extrn unsigned int define_getter(struct bfd_hash_table*, ht, entsize);
+extrn unsigned int define_getter(struct bfd_hash_table *, ht, entsize);
 
-extrn unsigned int define_getter(struct bfd_hash_table*, ht, frozen);
+extrn unsigned int define_getter(struct bfd_hash_table *, ht, frozen);
+
+// -------------------------------------------------------------------
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, type);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, size);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, bitsize);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, rightshift);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, bitpos);
+
+ENUM_BITFIELD(complain_overflow)
+extrn define_getter(struct reloc_howto_struct *, rh, complain_on_overflow);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, negate);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, pc_relative);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, partial_inplace);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, pcrel_offset);
+
+extrn unsigned int define_getter(struct reloc_howto_struct *, rh, install_addend);
+
+extrn bfd_vma define_getter(struct reloc_howto_struct *, rh, src_mask);
+
+extrn bfd_vma define_getter(struct reloc_howto_struct *, rh, dst_mask);

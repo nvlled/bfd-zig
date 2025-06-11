@@ -209,12 +209,19 @@ struct bfd_symbol *declare_getter(struct bfd_section *, sec, symbol);
 
 struct bfd_symbol **declare_getter(struct bfd_section *, sec, symbol_ptr_ptr);
 
-// TODO:
-//   union {
-//     struct bfd_link_order *link_order;
-//     struct bfd_section *s;
-//     const char *linked_to_symbol_name;
-//   } map_head, map_tail;
+struct bfd_link_order *
+declare_getter(struct bfd_section *, sec, map_head_link_order);
+struct bfd_section *
+declare_getter(struct bfd_section *, sec, map_head_s);
+const char *
+declare_getter(struct bfd_section *, sec, map_head_linked_to_symbol_name);
+
+struct bfd_link_order *
+declare_getter(struct bfd_section *, sec, map_tail_link_order);
+struct bfd_section *
+declare_getter(struct bfd_section *, sec, map_tail_s);
+const char *
+declare_getter(struct bfd_section *, sec, map_tail_linked_to_symbol_name);
 
 struct bfd_section *declare_getter(struct bfd_section *, sec, already_assigned);
 
@@ -222,14 +229,43 @@ unsigned int declare_getter(struct bfd_section *, sec, type);
 
 // -------------------------------------------------------------------
 
-struct bfd_hash_entry **declare_getter(struct bfd_hash_table*, ht, table);
+struct bfd_hash_entry **declare_getter(struct bfd_hash_table *, ht, table);
 
-void *declare_getter(struct bfd_hash_table*, ht, memory);
+void *declare_getter(struct bfd_hash_table *, ht, memory);
 
-unsigned int declare_getter(struct bfd_hash_table*, ht, size);
+unsigned int declare_getter(struct bfd_hash_table *, ht, size);
 
-unsigned int declare_getter(struct bfd_hash_table*, ht, count);
+unsigned int declare_getter(struct bfd_hash_table *, ht, count);
 
-unsigned int declare_getter(struct bfd_hash_table*, ht, entsize);
+unsigned int declare_getter(struct bfd_hash_table *, ht, entsize);
 
-unsigned int declare_getter(struct bfd_hash_table*, ht, frozen);
+unsigned int declare_getter(struct bfd_hash_table *, ht, frozen);
+
+// -------------------------------------------------------------------
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, type);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, size);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, bitsize);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, rightshift);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, bitpos);
+
+ENUM_BITFIELD(complain_overflow)
+declare_getter(struct reloc_howto_struct *, rh, complain_on_overflow);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, negate);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, pc_relative);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, partial_inplace);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, pcrel_offset);
+
+unsigned int declare_getter(struct reloc_howto_struct *, rh, install_addend);
+
+bfd_vma declare_getter(struct reloc_howto_struct *, rh, src_mask);
+
+bfd_vma declare_getter(struct reloc_howto_struct *, rh, dst_mask);
