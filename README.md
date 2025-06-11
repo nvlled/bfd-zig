@@ -41,6 +41,6 @@ The getter function mapping is as follows:
 - for bfd_hash_table:   ht.$FIELD -> c.bfd_ht_$FIELD(ht)
 
 For example:
--  filename  -> c.bfd_h_filename(handle)
+-  handle.filename  -> c.bfd_h_filename(handle)
 -  sec.next  -> c.bfd_sec_next(sec)
 -  ht.memory -> c.bfd_ht_memory(ht)

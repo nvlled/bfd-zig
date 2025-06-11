@@ -18,6 +18,21 @@ pub fn build(b: *std.Build) void {
         .language = .c,
     });
 
+    const exe = b.addExecutable(.{
+        .name = "bfd_zig",
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+            .root_source_file = b.path("src/main.zig"),
+            .imports = &.{.{
+                .name = "bfd_zig",
+                .module = mod,
+            }},
+        }),
+    });
+    exe.linkLibC();
+    b.installArtifact(exe);
+
     // export module so it can be imported on other projects
     b.modules.put("bfd_zig", mod) catch @panic("oof");
 
